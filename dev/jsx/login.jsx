@@ -4,16 +4,17 @@ const api_url = "http://127.0.0.1:8000"
 const login_Api = async (username,password)=> {
 	let result = await fetch(api_url+'/api/v1/user/login', {
 		method: 'POST',
+		credentials:'same-origin',
 		headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 		},
+		mode:"cors",
 		body: JSON.stringify({
 		username:username,
 		password:password
 	  }),
   })
-  alert(result)
   console.log(result)
 }
 
@@ -39,24 +40,38 @@ class LoginComponent extends React.Component {
 	}
 
   	handleSubmit(event) {
-		login_Api(this.state.username,this.state.password)
+		// document.cookie = "name=oeschger"
+		// document.cookie = "favorite_food=tripe"
+		// var cookie = JSON.parse(document.cookie)
+		// alert(document.cookie)
+		// alert(typeof(document.cookie))
+		var response = login_Api(this.state.username,this.state.password)
 		event.preventDefault();
   	}
     render() {
       return (
-        <form>
-  			<label>
-				Username:
+				<div className = "form_container">
+        <form className = "form_body">
+				<p>Welcome to xxx library</p>
+  			<label >
+				<span>Enter Your Name</span>
     			<input type="text" value = {this.state.username} name="username" placeholder = "username" onChange = {this.handleChange}/>
- 			</label>
-			 <label>
-				password:
-  				<input type="password" value = {this.state.password} name="password" placeholder = "password" onChange = {this.handleChange}/>
+			 </label>
+			 <br/>
+			 <label >
+			 <span>Enter Your Password</span>
+  				<input type="password"  value = {this.state.password} name="password" placeholder = "password" onChange = {this.handleChange}/>
 			</label>
-			<button onClick = {this.handleSubmit}>login</button>
-			<button onClick = {this.handleRegister}>register</button>
-
+			<br/>
+			<label></label>
+			<br/> 
+			<label>
+			<span>&nbsp;</span>
+			<button  type = "button" onClick = {this.handleSubmit}>login</button>
+			<button  type = "button" onClick = {this.handleRegister}>register</button>
+				</label>
 		</form>
+		</div>
       )
     }
   
@@ -64,4 +79,4 @@ class LoginComponent extends React.Component {
   
 
 
-  export default LoginComponent;
+  export default Login;

@@ -10,12 +10,14 @@ var config = {
     path: BUILD_DIR,
     filename: 'bundle.js'
   },
-  devServer: {
-	inline: true,
-	contentBase: __dirname,
-	port: 7000
-},
-
+  	devServer: {
+		inline: true,
+		contentBase: __dirname,
+		port: 7000,
+		proxy: {
+			"/api": "http://localhost:8000"
+			},
+	},
   	module: {
     	rules:[
 			{
