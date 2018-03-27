@@ -12,8 +12,8 @@ var connection = mysql.createConnection({
 })
 
 const asyncfun = async ()=>{
-    const employees = { age:23,name: 'Win' };
-    var sql = 'INSERT INTO employee SET ?'
+    const employees = ["k"];
+    var sql = 'select * from card where user_name = ?'
     var result = await new Promise((resolve,reject)=>{
         connection.query(sql,employees,function(err,result){
             if(err){
@@ -33,4 +33,22 @@ const asyncfun = async ()=>{
     return result
 }
 
-asyncfun()
+
+
+const query_book = async(data)=>{
+    // var verify_result = verify(data.cookie.id,data.cookie.password)
+    // if(verify_result[1] != 1)return ["身份验证失败",2]
+    var params = []
+    var sql = `select * from book where `
+    for(var field in data){
+        sql = sql +`${field} = ? and `
+    }
+    sql = sql.slice(0,sql.length-4)
+    console.log(sql)
+    
+
+}
+let data = {name : "kk",
+age:18,
+price : 34.33}
+query_book(data)

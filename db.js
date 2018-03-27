@@ -4,11 +4,11 @@ import { create } from 'domain';
 var mysql = require('mysql')
 var conf = require('./conf/conf')
 var connection = mysql.createConnection({
-    host:conf.mysql_conf.host,
-    user:conf.mysql_conf.user,
-    password:conf.mysql_conf.password,
-    port:conf.mysql_conf.port,
-    database:conf.mysql_conf.database
+    host:conf.host,
+    user:conf.user,
+    password:conf.password,
+    port:conf.port,
+    database:conf.database
 })
 
 /*
@@ -52,22 +52,6 @@ const verify = async (id,password)=>{
     }
 }
 
-/*
-@params
-@return
-*/
-const get_book = async (data)=>{
-    var verify_result = verify(data.cookie.id,data.cookie.password)
-    if(verify_result[1] != 1)return ["身份验证失败",2]
-    var sql = `SELECT * FROM record where id = ?`
-    var params = [data.cno]
-    var result = await middle_sql(sql,params)
-    if(result == 1)return ["获取书籍失败",1]
-    else{
-        return [result,0]
-    }
-    
-}
 
 /*
 @params
@@ -85,6 +69,22 @@ const new_book = async(data)=>{
 @return
 */
 const query_book = async(data)=>{
+    var verify_result = verify(data.cookie.id,data.cookie.password)
+    if(verify_result[1] != 1)return ["身份验证失败",2]
+    var params = []
+    var sql
+    if(data.length == 0){
+        sql = `select * from book`
+    }
+    else{
+        sql = `select * from book where `
+        for(var field in data){
+            sql = sql +`${field} = ? and `
+        }
+        sql = sql.slice(0,sql.length-4)
+    }
+    var result = middle_sql(sql,data)
+    console.log(sql)
 
 }
 
@@ -92,12 +92,16 @@ const query_book = async(data)=>{
 @params
 @return
 */
-const borrow_book = async(data)=>{
+const return_book = async(data)=>{
     var verify_result = verify(data.cookie.id,data.cookie.password)
     if(verify_result[1] != 1)return ["身份验证失败",2]
-    var sql = `update book set stock = stock - 1 where book_no = ?`
+    var sql = `select stock from book where book_no = ?`
     var params = [data.book_no]
     var result = await middle_sql(sql,params)
+    if(result.length == 0)return ["数据库中不存在这本书",1]
+    sql = `update book set stock = stock + 1 where book_no = ?`
+    params = [data.book_no]
+    result = await middle_sql(sql,params)
     if(result == 1)return ["数据库出现错误",1]
     else{
         return ["你已经借书成功",0]
@@ -110,16 +114,25 @@ const borrow_book = async(data)=>{
 @params
 @return
 */
-const return_book = (data)=>{
+const borrow_book = (data)=>{
     var verify_result = verify(data.cookie.id,data.cookie.password)
     if(verify_result[1] != 1)return ["身份验证失败",2]
-    var sql = `update book set stock = stock + 1 where book_no = ?`
+    var sql = `select stock from book where book_no = ?`
     var params = [data.book_no]
     var result = await middle_sql(sql,params)
-    if(result == 1)return ["数据库出现错误",1]
-    else{
-        return ["你已经还书成功",0]
+    if(result.length == 0)return ["数据库中不存在这本书",1]
+    if(result[0].stock > 0){
+        sql = `update book set stock = stock - 1 where book_no = ?`
+        params = [data.book_no]
+        result = await middle_sql(sql,params)
+        if(result == 1)return ["数据库出现错误",1]
+        else{
+            return ["你已经还书成功",0]
+        }
+    }else{
+        return ["无法借书,库存不足",1]
     }
+    
 }
 
 
@@ -142,15 +155,29 @@ const create_card = async(data)=>{
 const delete_card = async(data)=>{
     var verify_result = verify(data.cookie.id,data.cookie.password)
     if(verify_result[1] != 1)return ["身份验证失败",2]
-    var sql = `delete from card where cno = ${data.cno}`
-    var result = await middle_sql(sql)
+    var sql = `delete from card where cno = ?`
+    var params = [data.cno]
+    var result = await middle_sql(sql,params)
+}
+
+const query_user = async(data)=>{
+    var verify_result = verify(data.cookie.id,data.cookie.password)
+    if(verify_result[1] != 1)return ["身份验证失败",2]
+    var sql = `select * from book,record where book.book_no = record.book_no,cno = ?`
+    var params = [data.cno]
+    var result = await middle_sql(sql,params)
+    if(result == 1)return ["数据库错误",1]
+    else{
+        return [result,0]
+    }
 }
 module.exports ={
-    'get_book':get_book,
+    'verify':verify,
     'new_book':new_book,
     'query_book':query_book,
     'borrow_book':borrow_book,
     'return_book':return_book,
     'delete_card':delete_card,
-    'create_card':create_card
+    'create_card':create_card,
+    'query_user':query_user
 }               
