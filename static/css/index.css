@@ -1,7 +1,85 @@
+:root{
+  --font-color:#ffffff;
+}
+body{
+  margin:0px;
+  padding:0px;
+  background-image: url(../img/background.jpg);
+}
+#app{
+
+}
+
 .container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 10px;
-    grid-auto-rows: minmax(100px, auto);
+    height:100%;
+    grid-template-columns: 15% 85%;
+    grid-template-rows:10% 90% ;
     background: "#000000"
   }
+
+#body{
+  grid-column: 2;
+  grid-row: 2;
+  margin: 3%;
+  padding: 3%;
+  font-family: "Times New Roman", Georgia, Serif;
+  color:#000000;
+  background: #ffffff;
+  opacity: 0.8;
+  border-radius: 10px;
+  }
+
+#sidebar {
+    grid-column:1;
+    grid-row: 2/3;
+    color:#000000;
+    font-family: "Times New Roman", Georgia, Serif;
+    background: #ffffff;
+    opacity: 0.8;
+    padding:10%;
+}
+
+#sidebar li{
+  list-style-type:none;
+  margin: 10%;
+  padding-top :10%;
+  padding-bottom: 10%;
+  border-bottom:2px #000000 solid;
+}
+
+#sidebar li a{
+  text-decoration: none;
+  color: #000000;
+}
+#header {
+  grid-column: 1/3;
+  grid-row:1;
+  color:var(--font-color);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background: #2196F3;
+  opacity: 0.8;
+  box-shadow:0 10px 10px #000000;
+}
+
+#header button{
+  border: none;
+  font-family:"Times New Roman", Georgia, Serif;
+  position: relative;
+  top:20%;
+  left: 50%;
+  width: 10%;
+  height: 6%;
+  border-radius: 5px;
+  font-size: 20px;
+  
+}
+#header h1{
+  display: inline-block;
+  font-size: 40px;
+  margin: 0%;
+  position: relative;
+  top:20%;
+  left:3%;
+
+}

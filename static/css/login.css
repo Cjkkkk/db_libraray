@@ -1,15 +1,30 @@
-.form_container {
-    background: #495C70;
-    grid-column: 2 / 5;
-    grid-row: 2;
-    border-radius: 15px;
+
+:root{
+  --body-width:40%;
+}
+#shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 0%;
+  margin: 0%;
+  z-index: -1;
+  background: #394D61;
+  opacity: 0;
+}
+#form_container {
+    position: absolute;;
+    left:calc((100% - var(--body-width))/2);
+    top: 20%;
+    width: var(--body-width);
+    display: none;
+    z-index: 2;
+  
 }
 .form_body {
-  position: relative;
-  left:10%;
-  width: 80%;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  background: #394D61;
+  padding: 2% 5% 5% 5%;
+  border-radius: 10px;
 }
 
 .form_body input[type=text],

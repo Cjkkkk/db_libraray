@@ -15,7 +15,7 @@ var config = {
 		contentBase: __dirname,
 		port: 7000,
 		proxy: {
-			"/api": "http://localhost:8000"
+			"/api": "http://localhost:8000",
 			},
 	},
   	module: {
