@@ -1,5 +1,5 @@
 const fs = require('fs');
-var files = fs.readdirSync(__dirname+'/controllers');
+const files = fs.readdirSync(__dirname+'/controllers');
 const router = require('koa-router')();
 var js_files = files.filter((f)=>{
     return f.endsWith(".js");

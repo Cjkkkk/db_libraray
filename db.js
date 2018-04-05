@@ -1,4 +1,4 @@
-import { create } from 'domain';
+
 
 'use strict'
 var mysql = require('mysql')
@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
     host:conf.host,
     user:conf.user,
     password:conf.password,
-    port:conf.port,
+    // port:conf.port,
     database:conf.database
 })
 
@@ -15,19 +15,19 @@ var connection = mysql.createConnection({
 @params
 @return
 */
-const middle_sql = async (sql)=>{
+const middle_sql = async (sql,params)=>{
     var result = await new Promise((resolve,reject)=>{
         connection.query(sql,params,function(err,result){
             if(err){
                 console.log(err.message)
                 reject()
             }
-            console.log(result)
             resolve(result)
         })
     }).then((result)=>{
         return result
-    }).catch(()=>{
+    }).catch((err)=>{
+        console.log(err.message)
         return 1
     })
     connection.release
@@ -40,14 +40,16 @@ const middle_sql = async (sql)=>{
 @return
 */
 const verify = async (id,password)=>{
-    var sql = `SELECT password FROM account where id =? `
+    var sql = `SELECT password,admin_name FROM admin where id =? `
     var params = [id]
     var result = await middle_sql(sql,params)
-    if(result == 1)return ["身份验证失败",2]
+    console.log(result)
+    if(result == 1)return ["数据库错误",1]
     else{
-        if(result.password == password)return["身份验证成功",0]
+        if(result.length == 0)return ["没有这个用户",2]
+        if(result[0].password == password)return[result[0].admin_name,0]
         else{
-            return ["身份验证失败",2]
+            return ["密码错误",2]
         }
     }
 }
@@ -114,7 +116,7 @@ const return_book = async(data)=>{
 @params
 @return
 */
-const borrow_book = (data)=>{
+const borrow_book = async (data)=>{
     var verify_result = verify(data.cookie.id,data.cookie.password)
     if(verify_result[1] != 1)return ["身份验证失败",2]
     var sql = `select stock from book where book_no = ?`

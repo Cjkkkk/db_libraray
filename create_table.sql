@@ -35,9 +35,9 @@ create table record(
     cno char(8),
     borrow_date date,
     return_date date,
-    admin_name varchar(20),
+    id char(8),
     primary key(book_no,cno,borrow_date),
     foreign key(book_no) references book(book_no),
-    foreign key(cno) references card(cno)
+    foreign key(cno) references card(cno),
+    foreign key(id) references admin(id)
 );
-

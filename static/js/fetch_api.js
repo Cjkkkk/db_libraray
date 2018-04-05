@@ -1,18 +1,75 @@
-const standard_header = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+import { log } from "util"
+
+const login_Api = async (id,password)=> {
+	let result = await fetch('/api/v1/user/login', {
+		method: 'POST',
+		credentials: 'include',
+		headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+		id:id,
+		password:password
+	  }),
+  }).then((res)=>{
+    return res.json()
+  }).then((data)=>{
+    console.log(data)
+      return data
+  }).catch((error)=>{
+    console.log(error.message)
+      return 1
+  })
+  return result
 }
-const fetch_api = async(api_url,body,header = standard_header,method = 'POST')=>{
-    var result = await fetch(api_url, {
-		method:method,
-		// credentials:'same-origin',
-		headers: header,
-		body: JSON.stringify(body)
-      })
-    return result
+
+
+const status_Api = async()=> {
+	let result = await fetch('/api/v1/user/status', {
+		method: 'GET',
+		credentials: 'include',
+		headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+		},
+  }).then((res)=>{
+      return res.json()
+  }).then((data)=>{
+    console.log(data)
+    return data
+}).catch((error)=>{
+    console.log(error.message)
+      return 1
+  })
+  return result
+}
+
+
+
+const logout_Api = async()=> {
+	let result = await fetch('/api/v1/user/logout', {
+		method: 'GET',
+		credentials: 'include',
+		headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+		},
+  }).then((res)=>{
+      return res.json()
+  }).then((data)=>{
+    console.log(data)
+    return data
+}).catch((error)=>{
+    console.log(error.message)
+      return 1
+  })
+  return result
 }
 
 module.exports = {
-    fetch_api:fetch_api
+    'status_Api':status_Api,
+    'login_Api':login_Api,
+    'logout_Api':logout_Api
 }
 

@@ -6,9 +6,7 @@ body{
   padding:0px;
   background-image: url(../img/background.jpg);
 }
-#app{
 
-}
 
 .container {
     display: grid;
@@ -61,17 +59,29 @@ body{
   opacity: 0.8;
   box-shadow:0 10px 10px #000000;
 }
-
+#header span{
+  font-family:"Times New Roman", Georgia, Serif;
+  display: inline-block;
+  background: #ffffff;
+  margin-left: 2%;
+  width: 2%;
+  height: 3%;
+  color: #000000;
+  border-radius: 5px;
+  text-align: center;
+}
 #header button{
   border: none;
   font-family:"Times New Roman", Georgia, Serif;
   position: relative;
   top:20%;
-  left: 50%;
-  width: 10%;
+  left: 40%;
+  right: 3%;
+  width: 8%;
   height: 6%;
-  border-radius: 5px;
+  border-radius:7px;
   font-size: 20px;
+  margin-right: 2%;
   
 }
 #header h1{
@@ -80,6 +90,6 @@ body{
   margin: 0%;
   position: relative;
   top:20%;
-  left:3%;
+  left:2%;
 
 }

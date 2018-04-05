@@ -6,6 +6,9 @@ import New from './new.jsx'
 import Borrow_return from './borrow_return.jsx'
 import Delete from './delete.jsx'
 import { Switch, Route ,BrowserRouter,Link} from 'react-router-dom'
+import api from '../../static/js/fetch_api.js'
+
+
 
 // const fetch_api = require('./fetch_api')
 const get_all_book = async(stu_id)=>{
@@ -13,16 +16,6 @@ const get_all_book = async(stu_id)=>{
   var obj = {
 	  stuid:3160104210
 	}
-//   var myInit = { method: 'POST',
-//                headers: myHeaders,
-//                cache: 'default',
-//                body:JSON.stringify(obj)
-//               };
-
-var myInit = { method: 'GET',
-headers: myHeaders,
-cache: 'default'
-};
 
   var result = fetch("/api/v1/book/get_all_book?stuid=3160104210",myInit)
   console.log(result)
@@ -32,10 +25,8 @@ class App extends React.Component {
   constructor(props){
 	super(props)
 	this.fade = this.fade.bind(this)
-    //get_all_book(3160104210)
   }
-  fade(event){
-	  
+  fade(event){ 
 	  var form = document.getElementById('form_container')
 	  var shadow = document.getElementById('shadow')
 	  shadow.style['z-index'] = -1;
@@ -44,7 +35,6 @@ class App extends React.Component {
   }
   render() {
     return (
-	//   <div className = "container" id = "shadow">
 	<div className = "container">
 	<div id = "shadow" onClick = {this.fade}></div>
       <Header/>
@@ -86,11 +76,27 @@ class Header extends React.Component {
   constructor(props){
 	super(props)
 	this.toggle = this.toggle.bind(this)
-	this.login = this.login.bind(this)
+  this.login = this.login.bind(this)
+  this.logout = this.logout.bind(this)
 	this.state = {
-		show : 1,
-		// login : 0
+    show : 1,
+    name :"logout"
+  }
+  api.status_Api().then((result)=>{
+	if(result == 1)return
+    else if(result.status == 1 || result.status == 2){
+      var form = document.getElementById('form_container')
+      var shadow = document.getElementById('shadow')
+      form.style['display'] = 'block'
+      shadow.style['z-index'] = 1
+      shadow.style['opacity'] = 0.7
+    }else{
+		swal("WELCOME",`欢迎回来${result.name}~`,"success")
+    	this.state.name = result.name
+    	var logout = document.getElementById('logout')
+    	logout.innerHTML = `logout:${this.state.name}`
 	}
+  })
   }
   toggle(event){
 	  var sidebar = document.getElementById('sidebar')
@@ -106,23 +112,33 @@ class Header extends React.Component {
 
   }
 
-  login(event){
-	var form = document.getElementById('form_container')
-	var shadow = document.getElementById('shadow')
-	form.style['display'] = 'block'
-	shadow.style['z-index'] = 1
-	shadow.style['opacity'] = 0.7
-
-
-}
+    login(event){
+		var form = document.getElementById('form_container')
+		var shadow = document.getElementById('shadow')
+		form.style['display'] = 'block'
+		shadow.style['z-index'] = 1
+		shadow.style['opacity'] = 0.7
+	}
+	logout(event){
+		api.logout_Api().then((result)=>{
+			if(result == 1)return
+			else{
+				swal("MESSAGE",`${this.state.name} 已经成功注销`,"success")
+				this.state.name = 'logout'
+    			var logout = document.getElementById('logout')
+				logout.innerHTML = `${this.state.name}`
+			}
+		})
+	}
   render () {
     return (
     <div id="header">
+	<span onClick = {this.toggle}>T</span>
     <h1>
     Welcome to xxx library!
     </h1>
-    <button type = "button" onClick = {this.toggle}>toggle</button>
 	<button type = "button" onClick = {this.login}>login</button>
+	<button type = "button" onClick = {this.logout} id ="logout">{this.state.name}</button>
      </div>
     )
   }
@@ -133,4 +149,3 @@ render((
     <App />
   </BrowserRouter>
   ), document.getElementById('app'))
-// render(<App name = "kk"/>, document.getElementById('app'))

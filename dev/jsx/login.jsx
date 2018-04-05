@@ -1,32 +1,17 @@
 import React from 'react';
-// const api_url = "http://127.0.0.1:8000"
-
-// const login_Api = async (username,password)=> {
-// 	let result = await fetch(api_url+'/api/v1/user/login', {
-// 		method: 'POST',
-// 		credentials:'same-origin',
-// 		headers: {
-// 		Accept: 'application/json',
-// 		'Content-Type': 'application/json',
-// 		},
-// 		mode:"cors",
-// 		body: JSON.stringify({
-// 		username:username,
-// 		password:password
-// 	  }),
-//   })
-//   console.log(result)
-// }
+import api from '../../static/js/fetch_api.js'
+import swal from 'sweetalert';
 
 class Login extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-				id : "",
+		id : "",
       	password: ""}
 	  	this.handleChange = this.handleChange.bind(this)
 	  	this.handleSubmit = this.handleSubmit.bind(this)
-	  	this.handleRegister = this.handleRegister.bind(this)
+			this.handleRegister = this.handleRegister.bind(this)
+			
     }
 
   	handleChange(event) {
@@ -40,18 +25,29 @@ class Login extends React.Component {
 	}
 
   	handleSubmit(event) {
-		// document.cookie = "name=oeschger"
-		// document.cookie = "favorite_food=tripe"
-		// var cookie = JSON.parse(document.cookie)
-		// alert(document.cookie)
-		// alert(typeof(document.cookie))
-		// var response = login_Api(this.state.username,this.state.password)
-		// event.preventDefault();
+		api.login_Api(this.state.id,this.state.password).then((result)=>{
+			if(result == 1)return
+			else if(result.status == 0){
+				var form = document.getElementById('form_container')
+				var shadow = document.getElementById('shadow')
+				shadow.style['z-index'] = -1;
+				shadow.style['opacity'] = 0;
+				form.style['display']= 'none'
+				swal("WELCOME",`欢迎回来${result.name}~`,"success")
+				this.state.name = result.name
+    			var logout = document.getElementById('logout')
+    			logout.innerHTML = `logout:${this.state.name}`
+			}
+			else{
+				swal("MESSAGE",result.message,"error")
+		}
+		})
+		event.preventDefault();
   	}
     render() {
       return (
-				<div id = "form_container">
-        <form className = "form_body">
+		<div id = "form_container">
+        	<form className = "form_body">
 				<p>Login</p>
   			<label >
 				<span>Enter Your ID</span>
