@@ -19,15 +19,15 @@ const middle_sql = async (sql,params)=>{
     var result = await new Promise((resolve,reject)=>{
         connection.query(sql,params,function(err,result){
             if(err){
-                console.log(err.message)
-                reject()
+                console.log(err.code)
+                reject(err)
             }
             resolve(result)
         })
     }).then((result)=>{
+        console.log(result)
         return result
     }).catch((err)=>{
-        console.log(err.message)
         return 1
     })
     connection.release
@@ -43,7 +43,6 @@ const verify = async (id,password)=>{
     var sql = `SELECT password,admin_name FROM admin where id =? `
     var params = [id]
     var result = await middle_sql(sql,params)
-    console.log(result)
     if(result == 1)return ["数据库错误",1]
     else{
         if(result.length == 0)return ["没有这个用户",2]
@@ -61,9 +60,14 @@ const verify = async (id,password)=>{
 */
 const new_book = async(data)=>{
     var sql = `insert into book SET ?`
-    delete data.cookie
     console.log(data)
-    var result = middle_sql(sql,data)
+    var result = await middle_sql(sql,data)
+    if(result != 1){
+        return [`${data.book_name} 入库成功`,0]
+    }else{
+        // if(result == 'ER_DUP_ENTRY')return [`${data.book_name} 入库失败,book_no 重复`,1]
+        return [`${data.book_name} 入库失败`,1]
+    }
 }
 
 
@@ -140,15 +144,15 @@ const borrow_book = async (data)=>{
 
 
 /*
-@params
-@return
+@params ctx.body(
+    cno,
+    user_name,
+    depart_name,
+    class)
+@return [message,status]
 */
 const create_card = async(data)=>{
-    var verify_result = verify(data.cookie.id,data.cookie.password)
-    if(verify_result[1] != 1)return ["身份验证失败",2]
     var sql = 'insert into card SET ?'
-    delete data.cookie
-    console.log(data)
     var result = await middle_sql(sql,data)
     if(result != 1){
         console.log(result)
@@ -157,23 +161,22 @@ const create_card = async(data)=>{
         return ["创建失败",1]
     }
 }
-
 /*
-@params
-@return
+@params ctx.body(
+    cno
+)
+@return [message,status]
 */
 
 const delete_card = async(data)=>{
-    var verify_result = verify(data.cookie.id,data.cookie.password)
-    if(verify_result[1] != 1)return ["身份验证失败",2]
     var sql = `delete from card where cno = ?`
     var params = [data.cno]
     var result = await middle_sql(sql,params)
     if(result != 1){
         console.log(result)
-        return ["创建成功",0]
+        return ["删除成功",0]
     }else{
-        return ["创建失败",1]
+        return ["删除失败",1]
     }
 }
 

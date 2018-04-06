@@ -1,4 +1,5 @@
 'use strict'
+var db = require('../db')
 /*
 @params
 @return
@@ -29,7 +30,11 @@ const borrow_book = async (ctx,next)=>{
 @return
 */
 const new_book = async (ctx,next)=>{
-    
+    var result = await db.new_book(ctx.request.body)
+    ctx.response.body = {
+        status:result[1],
+        message:result[0]
+    }
 }
 
 module.exports = {

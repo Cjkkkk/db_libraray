@@ -3,7 +3,6 @@ var fs = require('fs')
 var db = require('../db')
 /*
 @params ctx.body(
-    cookie,
     cno,
     user_name,
     depart_name,
@@ -11,7 +10,7 @@ var db = require('../db')
 @return [message,status]
 */
 const create_card = async (ctx,next)=>{
-    var result = await db.create_card(ctx.body)
+    var result = await db.create_card(ctx.request.body)
     ctx.response.body = {
         status:result[1],
         message:result[0]
@@ -20,13 +19,12 @@ const create_card = async (ctx,next)=>{
 
 /*
 @params ctx.body(
-    cookie,
     cno
 )
 @return [message,status]
 */
 const delete_card = async (ctx,next)=>{
-    var result = await db.delete_card(ctx.body)
+    var result = await db.delete_card(ctx.request.body)
     ctx.response.body = {
         status:result[1],
         message:result[0]

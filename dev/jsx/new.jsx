@@ -12,12 +12,13 @@ class New extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-				book_name:"",
-				press: "",
-				year:"",
-				author:"",
-				price:"",
-				stock:""
+		  	book_no:"",
+			book_name:"",
+			press: "",
+			year:"",
+			author:"",
+			price:"",
+			stock:""
 			}
 	  	this.handleChange = this.handleChange.bind(this)
 	  	this.handleSubmit = this.handleSubmit.bind(this)

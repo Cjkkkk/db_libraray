@@ -104,16 +104,19 @@ class Header extends React.Component {
 		event.preventDefault()
 	}
 	logout(event){
-		api.logout_Api().then((result)=>{
-			if(result == 1)return
-			else{
-				swal("MESSAGE",`${this.state.name} 已经成功注销`,"success")
-				this.state.name = 'logout'
-    			var logout = document.getElementById('logout')
-				logout.innerHTML = `${this.state.name}`
-			}
-		})
-		event.preventDefault()
+		if(this.state.name == 'logout')swal("MESSAGE",`你还未登录`,"error")
+		else{
+			api.logout_Api().then((result)=>{
+				if(result == 1)return
+				else{
+					swal("MESSAGE",`${this.state.name} 已经成功注销`,"success")
+					this.state.name = 'logout'
+						var logout = document.getElementById('logout')
+					logout.innerHTML = `${this.state.name}`
+				}
+			})
+			event.preventDefault()
+		}
 	}
   render () {
     return (

@@ -31,7 +31,4 @@ class Find extends React.Component {
     }
   
   }
-  
-
-
   export default Find;
