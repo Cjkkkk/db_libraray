@@ -61,7 +61,8 @@ const verify = async (id,password)=>{
 */
 const new_book = async(data)=>{
     var sql = `insert into book SET ?`
-    var params = data//object
+    delete data.cookie
+    console.log(data)
     var result = middle_sql(sql,data)
 }
 
@@ -145,8 +146,16 @@ const borrow_book = async (data)=>{
 const create_card = async(data)=>{
     var verify_result = verify(data.cookie.id,data.cookie.password)
     if(verify_result[1] != 1)return ["身份验证失败",2]
-    var sql = 'insert into card values'
-    var result = await middle_sql(sql)
+    var sql = 'insert into card SET ?'
+    delete data.cookie
+    console.log(data)
+    var result = await middle_sql(sql,data)
+    if(result != 1){
+        console.log(result)
+        return ["创建成功",0]
+    }else{
+        return ["创建失败",1]
+    }
 }
 
 /*
@@ -160,6 +169,12 @@ const delete_card = async(data)=>{
     var sql = `delete from card where cno = ?`
     var params = [data.cno]
     var result = await middle_sql(sql,params)
+    if(result != 1){
+        console.log(result)
+        return ["创建成功",0]
+    }else{
+        return ["创建失败",1]
+    }
 }
 
 const query_user = async(data)=>{

@@ -16,7 +16,7 @@ create table card(
     cno char(8),
     user_name varchar(20),
     depart_name varchar(30),
-    class varchar(10),
+    class char(1),
     primary key(cno)
 );
 

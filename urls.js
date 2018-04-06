@@ -1,9 +1,10 @@
-const fs = require('fs');
-const files = fs.readdirSync(__dirname+'/controllers');
-const router = require('koa-router')();
+const fs = require('fs')
+const files = fs.readdirSync(__dirname+'/controllers')
+const router = require('koa-router')()
 var js_files = files.filter((f)=>{
-    return f.endsWith(".js");
-});
+    return f.endsWith(".js")
+})
+
 
 // 处理每个js文件:
 for (var f of js_files) {
@@ -27,10 +28,12 @@ for (var f of js_files) {
         }
     }
 }
-// var fn_html = async (ctx, next) => {
-//     console.log(ctx.params)
-//     ctx.render(ctx.params[0]);
-// };
 
-// router.get(/([\w]+.html)/,fn_html)
+
+router.get(/^\/(new||borrow_return||delete_card)$/,async (ctx,next)=>{
+    ctx.redirect('/')
+})
+router.get('*',async (ctx,next)=>{
+    ctx.response.body = "404 Not found"
+})
 module.exports = router.routes();

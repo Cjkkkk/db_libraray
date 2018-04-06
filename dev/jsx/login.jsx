@@ -20,7 +20,7 @@ class Login extends React.Component {
 		console.log(target.name,target.value)
 		this.setState({[key]: target.value})
   	}
-		handleRegister(event) {
+	handleRegister(event) {
 		// this.setState({})
 	}
 

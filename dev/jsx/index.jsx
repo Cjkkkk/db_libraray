@@ -7,20 +7,7 @@ import Borrow_return from './borrow_return.jsx'
 import Delete from './delete.jsx'
 import { Switch, Route ,BrowserRouter,Link} from 'react-router-dom'
 import api from '../../static/js/fetch_api.js'
-
-
-
-// const fetch_api = require('./fetch_api')
-const get_all_book = async(stu_id)=>{
-  var myHeaders = new Headers();
-  var obj = {
-	  stuid:3160104210
-	}
-
-  var result = fetch("/api/v1/book/get_all_book?stuid=3160104210",myInit)
-  console.log(result)
-}
-
+import pop from '../../static/js/pop_login.js'
 class App extends React.Component {
   constructor(props){
 	super(props)
@@ -54,7 +41,7 @@ class Body extends React.Component {
       			<Route exact path='/' component={Find}/>
       			<Route exact path='/new' component={New}/>
       			<Route exact path='/borrow_return' component={Borrow_return}/>
-				    <Route exact path='/delete_card' component={Delete}/>
+				<Route exact path='/delete_card' component={Delete}/>
     	</Switch>
         </div>
     )
@@ -109,15 +96,12 @@ class Header extends React.Component {
 		sidebar.style['grid-column'] = 1;
 		body.style['grid-column'] = 2;
 	  }
-
+	  event.preventDefault()
   }
 
-    login(event){
-		var form = document.getElementById('form_container')
-		var shadow = document.getElementById('shadow')
-		form.style['display'] = 'block'
-		shadow.style['z-index'] = 1
-		shadow.style['opacity'] = 0.7
+	login(event){
+		pop.pop_login()
+		event.preventDefault()
 	}
 	logout(event){
 		api.logout_Api().then((result)=>{
@@ -129,6 +113,7 @@ class Header extends React.Component {
 				logout.innerHTML = `${this.state.name}`
 			}
 		})
+		event.preventDefault()
 	}
   render () {
     return (

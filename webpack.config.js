@@ -16,6 +16,9 @@ var config = {
 		port: 7000,
 		proxy: {
 			"/api": "http://localhost:8000",
+			"/new": "http://localhost:8000",
+			"/borrow_return": "http://localhost:8000",
+			"/delete_card": "http://localhost:8000",
 			},
 	},
   	module: {
