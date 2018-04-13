@@ -10,14 +10,13 @@ class Login extends React.Component {
       	password: ""}
 	  	this.handleChange = this.handleChange.bind(this)
 	  	this.handleSubmit = this.handleSubmit.bind(this)
-			this.handleRegister = this.handleRegister.bind(this)
+		this.handleRegister = this.handleRegister.bind(this)
 			
     }
 
   	handleChange(event) {
 		let target = event.target
 		let key = target.name
-		console.log(target.name,target.value)
 		this.setState({[key]: target.value})
   	}
 	handleRegister(event) {
@@ -25,7 +24,7 @@ class Login extends React.Component {
 	}
 
   	handleSubmit(event) {
-		api.login_Api(this.state.id,this.state.password).then((result)=>{
+		api.login_Api(this.state).then((result)=>{
 			if(result == 1)return
 			else if(result.status == 0){
 				var form = document.getElementById('form_container')

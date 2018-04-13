@@ -15,7 +15,7 @@ var connection = mysql.createConnection({
 @params
 @return
 */
-const middle_sql = async (sql,params)=>{
+const middle_sql = async (sql,params = null)=>{
     var result = await new Promise((resolve,reject)=>{
         connection.query(sql,params,function(err,result){
             if(err){
@@ -76,22 +76,36 @@ const new_book = async(data)=>{
 @return
 */
 const query_book = async(data)=>{
-    var verify_result = verify(data.cookie.id,data.cookie.password)
-    if(verify_result[1] != 1)return ["身份验证失败",2]
     var params = []
     var sql
-    if(data.length == 0){
-        sql = `select * from book`
+    var range = {}
+    range.year = data.year
+    range.price = data.price
+    range.stock = data.stock
+    delete data.year
+    delete data.price
+    delete data.stock
+    console.log(range)
+    console.log(data)
+    var query = ""
+    var sql = 'select * from book'
+    for(var field in data){
+        if(data[field])query += `${field} = "${data[field]}" and `
     }
-    else{
-        sql = `select * from book where `
-        for(var field in data){
-            sql = sql +`${field} = ? and `
-        }
-        sql = sql.slice(0,sql.length-4)
+    for(var field in range){
+        if(range[field].upbound && range[field].lowerbound)query += `${field} < ${range[field].upbound} and ${field} > ${range[field].lowerbound} and `
     }
-    var result = middle_sql(sql,data)
+    if(query){
+        //有查询条件
+        sql = sql + " where "+ query
+        sql = sql.slice(0,-5)
+    }
     console.log(sql)
+    var result = await middle_sql(sql,data)
+    if(result == 1)return ["数据库错误",1]
+    else{
+        return [result,0]
+    }
 
 }
 

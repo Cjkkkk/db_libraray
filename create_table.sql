@@ -37,7 +37,7 @@ create table record(
     return_date date,
     id char(8),
     primary key(book_no,cno,borrow_date),
-    foreign key(book_no) references book(book_no),
-    foreign key(cno) references card(cno),
-    foreign key(id) references admin(id)
+    foreign key(book_no) references book(book_no),on delete CASCADE,on delete CASCADE,
+    foreign key(cno) references card(cno),on delete CASCADE,on delete CASCADE,
+    foreign key(id) references admin(id),on delete CASCADE,on delete CASCADE,
 );

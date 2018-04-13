@@ -1,17 +1,14 @@
 import { log } from "util"
 
-const login_Api = async (id,password)=> {
-	let result = await fetch('/api/v1/user/login', {
-		method: 'POST',
+
+const basic_get_api = async (url)=>{
+	let result = await fetch(url, {
+		method: 'GET',
 		credentials: 'include',
 		headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({
-		id:id,
-		password:password
-	  }),
   }).then((res)=>{
     return res.json()
   }).then((data)=>{
@@ -25,51 +22,54 @@ const login_Api = async (id,password)=> {
 }
 
 
-const status_Api = async()=> {
-	let result = await fetch('/api/v1/user/status', {
-		method: 'GET',
+const basic_post_api = async (url,data)=>{
+	let result = await fetch(url, {
+		method: 'POST',
 		credentials: 'include',
 		headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-		},
+		},body:JSON.stringify(data)
   }).then((res)=>{
-      return res.json()
+    return res.json()
   }).then((data)=>{
     console.log(data)
-    return data
-}).catch((error)=>{
+      return data
+  }).catch((error)=>{
     console.log(error.message)
       return 1
   })
   return result
 }
+const login_Api = async (data)=> {
+	return await basic_post_api('/api/v1/user/login',data)
+}
 
+const status_Api = async()=> {
+	return await basic_get_api('/api/v1/user/status')
+}
 
 
 const logout_Api = async()=> {
-	let result = await fetch('/api/v1/user/logout', {
-		method: 'GET',
-		credentials: 'include',
-		headers: {
-		Accept: 'application/json',
-		'Content-Type': 'application/json',
-		},
-  }).then((res)=>{
-      return res.json()
-  }).then((data)=>{
-    console.log(data)
-    return data
-}).catch((error)=>{
-    console.log(error.message)
-      return 1
-  })
-  return result
+	return await basic_get_api('/api/v1/user/logout')
 }
 
+const newBook_Api = async(data)=>{
+	return await basic_post_api('/api/v1/book/new_book',data)
+}
+
+const getBook_Api = async(data)=>{
+  var tmp = {}
+  for(var field in data){
+    if(field != "data" && field != "page")tmp[field] = data[field]
+  }
+	return await basic_post_api('/api/v1/book/query_book',tmp)
+}
 module.exports = {
     'status_Api':status_Api,
     'login_Api':login_Api,
-    'logout_Api':logout_Api
+    'logout_Api':logout_Api,
+	  'newBook_Api':newBook_Api,
+	  'getBook_Api':getBook_Api
 }
 

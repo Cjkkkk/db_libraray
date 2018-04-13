@@ -1,13 +1,5 @@
 import React from 'react'
-
-// 			book_no char(8),
-//     category varchar(50),
-//     book_name varchar(50),
-//     press varchar(30),
-//     year int,
-//     author varchar(20),
-//     price decimal(7,2),
-//     stock int,
+import api from '../../static/js/fetch_api.js'
 class New extends React.Component {
     constructor(props) {
       super(props)
@@ -22,7 +14,6 @@ class New extends React.Component {
 			}
 	  	this.handleChange = this.handleChange.bind(this)
 	  	this.handleSubmit = this.handleSubmit.bind(this)
-	  	this.handleRegister = this.handleRegister.bind(this)
     }
 
   	handleChange(event) {
@@ -31,20 +22,27 @@ class New extends React.Component {
 		console.log(target.name,target.value)
 		this.setState({[key]: target.value})
   	}
-		handleRegister(event) {
-	}
-
   	handleSubmit(event) {
-		
+		api.newBook_Api(this.state).then(result=>{
+			if(result != 1)swal("MESSAGE","yeah","success")
+			else{
+				swal("MESSAGE","oops","error")
+			}
+		})
   	}
     render() {
       return (
 		<div id = "new_container">
         <form className = "new_body">
 				<p>New Book</p>
+				<label >
+					<span>book no</span>
+					<input type = "text" value = {this.state.book_no} name = "book_no" placeholder = "input book_no" onChange = {this.handleChange}/>
+			 </label>
+			 	<br/>
   			<label >
 					<span>book name</span>
-					<input type = "text" value = {this.state.book_no} name = "book_no" placeholder = "input book_name" onChange = {this.handleChange}/>
+					<input type = "text" value = {this.state.book_name} name = "book_name" placeholder = "input book_name" onChange = {this.handleChange}/>
 			 </label>
 			 	<br/>
 			 <label >

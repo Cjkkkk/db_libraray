@@ -4,12 +4,20 @@ var db = require('../db')
 @params
 @return
 */
-const get_book = async (ctx,next)=>{
-    // ctx.response.set('Access-Control-Allow-Origin', 'http://127.0.0.1:7000')
-    // ctx.response.set('Access-Control-Allow-Method', '*')
-    ctx.response.body = "under con"
-    console.log(ctx.request.query.stuid)
-    console.log(ctx.request)
+const query_book = async (ctx,next)=>{
+    var result = await db.query_book(ctx.request.body)
+    if(result[1] == 1){
+        ctx.response.body = {
+        status:result[1],
+        message:result[0]
+    }
+}
+else{
+    ctx.response.body = {
+        status:result[1],
+        data:result[0]
+    }
+}
 }
 /*
 @params
@@ -38,7 +46,7 @@ const new_book = async (ctx,next)=>{
 }
 
 module.exports = {
-    'GET /api/v1/book/get_book':get_book,
+    'POST /api/v1/book/query_book':query_book,
     'POST /api/v1/book/return_book':return_book,
     'POST /api/v1/book/borrow_book':borrow_book,
     'POST /api/v1/book/new_book':new_book
