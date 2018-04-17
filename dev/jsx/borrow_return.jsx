@@ -25,7 +25,7 @@ class Borrow_return extends React.Component {
     render() {
       return (
 		<div id = "borrow_return_container">
-            this is borrow_return
+           
 		</div>
       )
     }

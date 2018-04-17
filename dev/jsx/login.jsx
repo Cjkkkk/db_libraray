@@ -6,11 +6,11 @@ class Login extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-		id : "",
+				id : "",
       	password: ""}
 	  	this.handleChange = this.handleChange.bind(this)
 	  	this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleRegister = this.handleRegister.bind(this)
+			this.handleRegister = this.handleRegister.bind(this)
 			
     }
 
@@ -33,9 +33,8 @@ class Login extends React.Component {
 				shadow.style['opacity'] = 0;
 				form.style['display']= 'none'
 				swal("WELCOME",`欢迎回来${result.name}~`,"success")
-				this.state.name = result.name
-    			var logout = document.getElementById('logout')
-    			logout.innerHTML = `logout:${this.state.name}`
+				var logout = document.getElementById('logout')
+    		logout.innerHTML = `logout:${result.name}`
 			}
 			else{
 				swal("MESSAGE",result.message,"error")

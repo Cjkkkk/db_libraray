@@ -67,10 +67,9 @@ class Header extends React.Component {
   this.logout = this.logout.bind(this)
 	this.state = {
     show : 1,
-    name :"logout"
   }
   api.status_Api().then((result)=>{
-	if(result == 1)return
+		if(result == 1)return
     else if(result.status == 1 || result.status == 2){
       var form = document.getElementById('form_container')
       var shadow = document.getElementById('shadow')
@@ -78,10 +77,9 @@ class Header extends React.Component {
       shadow.style['z-index'] = 1
       shadow.style['opacity'] = 0.7
     }else{
-		swal("WELCOME",`欢迎回来${result.name}~`,"success")
-    	this.state.name = result.name
+			swal("WELCOME",`欢迎回来${result.name}~`,"success")
     	var logout = document.getElementById('logout')
-    	logout.innerHTML = `logout:${this.state.name}`
+    	logout.innerHTML = `logout:${result.name}`
 	}
   })
   }
@@ -104,15 +102,15 @@ class Header extends React.Component {
 		event.preventDefault()
 	}
 	logout(event){
-		if(this.state.name == 'logout')swal("MESSAGE",`你还未登录`,"error")
+		var logout = document.getElementById('logout')
+		if(logout.innerHTML == 'logout')swal("MESSAGE",`你还未登录`,"error")
 		else{
 			api.logout_Api().then((result)=>{
 				if(result == 1)return
 				else{
-					swal("MESSAGE",`${this.state.name} 已经成功注销`,"success")
-					this.state.name = 'logout'
-						var logout = document.getElementById('logout')
-					logout.innerHTML = `${this.state.name}`
+					var name = logout.innerHTML.slice(7,)
+					swal("MESSAGE",`${name}已经成功注销`,"success")
+					logout.innerHTML ='logout'
 				}
 			})
 			event.preventDefault()
@@ -126,7 +124,7 @@ class Header extends React.Component {
     Welcome to xxx library!
     </h1>
 	<button type = "button" onClick = {this.login}>login</button>
-	<button type = "button" onClick = {this.logout} id ="logout">{this.state.name}</button>
+	<button type = "button" onClick = {this.logout} id ="logout">logout</button>
      </div>
     )
   }

@@ -41,19 +41,29 @@ class Find extends React.Component {
 		}
 	  	this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
+		this.sort = this.sort.bind(this)
 		api.getBook_Api(this.state).then(result=>{
 		if(result == 1){
 			swal("MESSAGE",'出现未知错误',"error")
 		}
 		else{
-			if(result.status == 1 || result.status == 2)swal("MESSAGE",`${result.message}`,"error")
-			else{
-				this.setState({data:result.data})
-			}
+			if(result.status != 1 && result.status != 2)this.setState({data:result.data})
 		}
 	})
     }
-
+	sort(event) {
+		var serverId=document.getElementById('select_sort_standard').value
+		console.log(this.data)
+		this.data.sort(function(a, b){
+			var keyA = a.serverId
+				keyB = b.serverId
+			// Compare the 2 dates
+			if(keyA < keyB) return -1
+			if(keyA > keyB) return 1
+			return 0
+		})
+		this.setState({data:this.data})
+	}
   	handleChange(event) {
 		let target = event.target
 		let key = target.name
@@ -135,6 +145,17 @@ class Find extends React.Component {
 			<label className = "range">
 			<button type = "button" onClick = {this.handleSubmit}>find</button>
 			</label>
+			<label className = "range">
+			<select id = "select_sort_standard" onChange = {this.sort}>
+  				<option value="no" selected = "selected">no</option>
+  				<option value="category">category</option>
+  				<option value="name">name</option>
+  				<option value="press">press</option>
+				<option value="author">author</option>
+				<option value="year">year</option>
+				<option value="price">price</option>
+			</select>
+			</label>
 		</form>
 		<table>
 			<thead>
@@ -151,7 +172,7 @@ class Find extends React.Component {
 			</thead>
 			<Table data = {this.state.data}/>
 		</table>
-		<div><span>+</span><span>{this.state.page}</span><span>-</span></div>
+		{/* <div><span>+</span><span>{this.state.page}</span><span>-</span></div> */}
 		</div>
       )
     }
