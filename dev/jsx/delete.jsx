@@ -20,10 +20,10 @@ class Delete extends React.Component {
   	}
     render() {
       return (
-		<div id = "delete_container">
-            <input type = "text" value = {this.state.cno} name = "cno" placeholder = "input the card id you want to delete" onChange = {this.handleChange}/>
-            <br/>
-            <button typr="button" onClick = {this.handleSubmit}>delete</button>
+		    <div id = "delete_container">
+          <label>card number</label>
+          <input type = "text" value = {this.state.cno} name = "cno" placeholder = "input the card number you want to delete" onChange = {this.handleChange}/>
+          <button typr="button" onClick = {this.handleSubmit}>delete</button>
         </div>
       )
     }

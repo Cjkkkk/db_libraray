@@ -67,6 +67,7 @@ const getBook_Api = async(data)=>{
 }
 
 const query_user = async(cno)=>{
+  console.log(cno)
 	return await basic_post_api('/api/v1/book/query_user',cno)
 }
 

@@ -1,46 +1,20 @@
 import React from 'react'
 import api from '../../static/js/fetch_api.js'
+import Table from './table.jsx'
 
-function Table(props){
-	console.log(props)
-	return(
-		<table>
-			<thead>
-				<tr>
-					<th>book no</th>
-					<th>category</th>
-					<th>book_name</th>
-					<th>press</th>
-					<th>year</th>
-					<th>author</th>
-					<th>price</th>
-					<th>stock</th>
-				</tr>
-			</thead>
-		<tbody>{props.data.map((message) => <Tr key={message.book_no} tr={message} />)}</tbody>
-		</table>
-	)
-}
-
-
-function Tr(props){
-	var tr = []
-	for(var field in props.tr){
-		tr.push(props.tr[field])
-	}
-	return(<tr>{tr.map((content,index) => <td key={index}>{content} </td>)}</tr>)
-}
 class Borrow_return extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-				cno :"",
-				data:[]}
+			cno :"",
+			borrow_book_no:"",
+			return_book_no:"",
+			data:[]
+		}
 	  	this.handleChange = this.handleChange.bind(this)
 	  	this.handleSubmit = this.handleSubmit.bind(this)
-	  	this.handleRegister = this.handleRegister.bind(this)
+		this.handleRegister = this.handleRegister.bind(this)
     }
-
   	handleChange(event) {
 		let target = event.target
 		let key = target.name
@@ -51,29 +25,42 @@ class Borrow_return extends React.Component {
 	}
 
   	handleSubmit(event) {
-			console.log("this is data:",this.state.cno)
-			api.query_user(this.state.cno).then(result=>{
-			if(result == 1){
-				swal("MESSAGE",'出现未知错误',"error")
-			}
+		api.query_user(Object.assign({},{cno:this.state.cno})).then(result=>{
+		console.log(this.state)
+		if(result == 1){
+			swal("MESSAGE",'出现未知错误',"error")
+		}
+		else{
+			if(result.status == 1 || result.status == 2)swal("MESSAGE",`${result.message}`,"error")
 			else{
-				if(result.status == 1 || result.status == 2)swal("MESSAGE",`${result.message}`,"error")
-				else{
-					this.setState({data:result.data})
-				}
+				console.log(result)
+				this.setState({data:result.message})
 			}
-		})
-  	}
+		}
+	})
+	}
     render() {
       return (
 			<div id = "borrow_return_container">
            <form className = "borrow_return_body">
 				<p>query user</p>
 				<label>
-					<span>user_id</span>
+					<span>card number</span>
 					<input type = "text" value = {this.state.cno} name = "cno"  onChange = {this.handleChange}/>
 			 	</label>
 				 <button type = "button" onClick = {this.handleSubmit}>query</button>
+				 <br/>
+				 <label>
+					<span>borrow book</span>
+					<input type = "text" value = {this.state.borrow_book_no} name = "borrow_book_no"  onChange = {this.handleChange}/>
+			 	</label>
+				 <button type = "button" onClick = {this.handleSubmit}>borrow</button>
+				 <br/>
+				 <label>
+					<span>return book</span>
+					<input type = "text" value = {this.state.return_book_no} name = "return_book_no"  onChange = {this.handleChange}/>
+			 	</label>
+				 <button type = "button" onClick = {this.handleSubmit}>return</button>
 				 <Table data = {this.state.data}/>
 		</form>
 		</div>

@@ -46,7 +46,6 @@
 }
 .form_body label{
   width: 100%;
-  height: 40px;
 }
 
 .form_body label span{
@@ -57,7 +56,7 @@
     position: relative;
     left: 5%;
     width: 55%;
-    height: 40px;
+    /* height: 40px; */
     background: transparent;
     border: none;
     border-bottom: 1px dashed #83A4C5;
@@ -68,7 +67,7 @@
     position: relative;
     left: 5%;
     width: 25%;
-    height:25%;
+    /* height:25%; */
     margin:10px;
     background: #576E86;
     border: none;

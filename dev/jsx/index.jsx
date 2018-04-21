@@ -48,13 +48,33 @@ class Body extends React.Component {
   }
 }
 class Sidebar extends React.Component {
+	constructor(){
+		super()
+		this.change_color = this.change_color.bind(this)
+		}
+		change_color(event){
+			// var target = event.target
+			// var id = target.id
+			// var li_list = document.getElementsByTagName('a')
+			// for(var i=0;i<li_list.length;i++){
+			// 	// console.log(li_list[i],i)
+			// 	if(li_list[i].id == id ){
+			// 		li_list[i].style.background = "#000000"
+			// 		li_list[i].style.color = "#ffffff"
+			// 	}
+			// 	else{
+			// 		li_list[i].style.background = "#ffffff"
+			// 		li_list[i].style.color = "#000000"
+			// 	}
+			// }
+		}
   render () {
     return (
     <div id = "sidebar">
-	<li><Link to='/'>find book</Link></li>
-    <li><Link to='/new'>new book</Link></li>
-    <li><Link to='/borrow_return'>borrow & return</Link></li>
-    <li><Link to='/delete_card'>delete card</Link></li>
+		<li id="find_book" onClick = {this.change_color}><Link to='/'>find book</Link></li>
+    <li id="new_book" onClick = {this.change_color}><Link to='/new'>new book</Link></li>
+    <li id="borrow_book" onClick = {this.change_color}><Link to='/borrow_return'>borrow & return</Link></li>
+    <li id="delete_card" onClick = {this.change_color}><Link to='/delete_card'>delete card</Link></li>
     </div>
     )
   }

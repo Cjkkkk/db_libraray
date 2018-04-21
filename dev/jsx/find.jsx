@@ -1,34 +1,6 @@
 import React from 'react'
 import api from '../../static/js/fetch_api.js'
-function Table(props){
-	console.log(props)
-	return(
-		<table>
-			<thead>
-				<tr>
-					<th>book no</th>
-					<th>category</th>
-					<th>book_name</th>
-					<th>press</th>
-					<th>year</th>
-					<th>author</th>
-					<th>price</th>
-					<th>stock</th>
-				</tr>
-			</thead>
-		<tbody>{props.data.map((message) => <Tr key={message.book_no} tr={message} />)}</tbody>
-		</table>
-	)
-}
-
-
-function Tr(props){
-	var tr = []
-	for(var field in props.tr){
-		tr.push(props.tr[field])
-	}
-	return(<tr>{tr.map((content,index) => <td key={index}>{content} </td>)}</tr>)
-}
+import Table from './table.jsx'
 class Find extends React.Component {
     constructor(props) {
         super(props)
@@ -90,7 +62,6 @@ class Find extends React.Component {
 			console.log(this.state[key[0]])		
 		}else{
 			this.setState({[key]: target.value})
-			console.log("page",this.state.page)
 			console.log(this.state[key])
 		}
   	}
@@ -162,9 +133,9 @@ class Find extends React.Component {
 			</label>
 			<label className = "range">
 			<select id = "select_sort_standard" onChange = {this.sort}>
-  				<option value="book_no" selected = "selected">book_no</option>
+  				<option value="book_no" >book_no</option>
   				<option value="category">category</option>
-  				<option value="book_name">book_name</option>
+  				<option value="book_name" selected = "selected">book_name</option>
   				<option value="press">press</option>
 				<option value="author">author</option>
 				<option value="year">year</option>

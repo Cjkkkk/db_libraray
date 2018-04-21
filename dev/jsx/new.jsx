@@ -50,58 +50,54 @@ class New extends React.Component {
   	}
     render() {
       return (
-		<div id = "new_container">
-        <form className = "new_body">
+		<div id = "query_container">
+          <form className = "query_body">
 				<p>New Book</p>
 				<label >
-					<span>book no</span>
-					<input type = "text" value = {this.state.book_no} name = "book_no" placeholder = "input book_no" onChange = {this.handleChange}/>
-			 </label>
-			 	<br/>
+					<span>book_no</span>
+					<input type = "text" value = {this.state.book_no} name = "book_no"  onChange = {this.handleChange}/>
+			 	</label>
 				 <label >
 					<span>category</span>
-					<input type = "text" value = {this.state.category} name = "category" placeholder = "input category" onChange = {this.handleChange}/>
-			 </label>
-			 	<br/>
-  			<label >
-					<span>book name</span>
-					<input type = "text" value = {this.state.book_name} name = "book_name" placeholder = "input book_name" onChange = {this.handleChange}/>
-			 </label>
-			 	<br/>
-			 <label >
+					<input type = "text" value = {this.state.category} name = "category"  onChange = {this.handleChange}/>
+			 	</label>
+				 <br/>
+  				<label >
+					<span>name</span>
+					<input type = "text" value = {this.state.book_name} name = "book_name"  onChange = {this.handleChange}/>
+				 </label>
+				 
+			 	<label >
 			 	<span>Press</span>
-			 	<input type = "text" value = {this.state.press} name = "press" placeholder = "input press" onChange = {this.handleChange}/>
-			</label>
-				<br/>
-			<label>
-			<span>year</span>
-			<input type = "text" value = {this.state.year} name = "year" placeholder = "input year" onChange = {this.handleChange}/>
-			</label>
-			<br/> 
+			 	<input type = "text" value = {this.state.press} name = "press"  onChange = {this.handleChange}/>
+			</label> 
+			<br/>
 			<label>
 			<span>author</span>
-			<input type = "text" value = {this.state.author} name = "author" placeholder = "input author" onChange = {this.handleChange}/>
+			<input type = "text" value = {this.state.author} name = "author"  onChange = {this.handleChange}/>
 			</label>
-			<br/> 
 			<label>
-			<span>Price</span>
-			<input type = "text" value = {this.state.price} name = "price" placeholder = "input price" onChange = {this.handleChange}/>
-			</label>
-			<br/> 
-			<label>
-			<span>stock</span>
-			<input type = "text" value = {this.state.stock} name = "stock" placeholder = "input stock" onChange = {this.handleChange}/>
+			<span>year</span>
+			<input type = "text" value = {this.state.year} name = "year"  onChange = {this.handleChange}/>
 			</label>
 			<br/>
 			<label>
-			<span>&nbsp;</span>
+			<span>Price</span>
+			<input type = "text" value = {this.state.price} name = "price"  onChange = {this.handleChange}/>
+			</label>
+			<label>
+			<span>stock</span>
+			<input type = "text" value = {this.state.stock} name = "stock"  onChange = {this.handleChange}/>
+			</label>
+			<br/>
+			<label>
 			<button type = "button" onClick = {this.handleSubmit}>create</button>
 			</label>
 		</form>
-		<label>
+			<label id="file_uploader">
 			<input id = "book_file" type = "file"/>
+			</label>
 			<button type = "button" onClick = {this.file_upload}>upload</button>
-		</label>
 		</div>
       )
     }

@@ -197,8 +197,8 @@ const delete_card = async(data)=>{
 }
 
 const query_user = async(data)=>{
-    console.log(data)
-    var sql = `select * from book,record where book.book_no = record.book_no,cno = ?`
+    console.log(data.cno)
+    var sql = `select book.book_no,category,book_name,press,year,author,price,stock from book,record where book.book_no = record.book_no and cno = ?`
     var params = [data.cno]
     var result = await middle_sql(sql,params)
     if(result == 1)return ["数据库错误",1]
