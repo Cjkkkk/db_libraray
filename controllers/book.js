@@ -45,9 +45,19 @@ const new_book = async (ctx,next)=>{
     }
 }
 
+
+const query_user = async (ctx,next)=>{
+    console.log(ctx.request.body)
+    var result = await db.query_user(ctx.request.body)
+    ctx.response.body = {
+        status:result[1],
+        message:result[0]
+    }
+}
 module.exports = {
     'POST /api/v1/book/query_book':query_book,
     'POST /api/v1/book/return_book':return_book,
     'POST /api/v1/book/borrow_book':borrow_book,
-    'POST /api/v1/book/new_book':new_book
+    'POST /api/v1/book/new_book':new_book,
+    'POST /api/v1/book/query_user':query_user
 }

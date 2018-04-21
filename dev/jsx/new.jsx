@@ -73,7 +73,11 @@ class New extends React.Component {
 			<label>
 			<span>&nbsp;</span>
 			<button type = "button" onClick = {this.handleSubmit}>create</button>
-				</label>
+			</label>
+			<label>
+			<span>new book upload</span>
+			<input type = "file"/>
+			</label>
 		</form>
 		</div>
       )

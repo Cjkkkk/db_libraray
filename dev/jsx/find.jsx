@@ -3,7 +3,21 @@ import api from '../../static/js/fetch_api.js'
 function Table(props){
 	console.log(props)
 	return(
+		<table>
+			<thead>
+				<tr>
+					<th>book no</th>
+					<th>category</th>
+					<th>book_name</th>
+					<th>press</th>
+					<th>year</th>
+					<th>author</th>
+					<th>price</th>
+					<th>stock</th>
+				</tr>
+			</thead>
 		<tbody>{props.data.map((message) => <Tr key={message.book_no} tr={message} />)}</tbody>
+		</table>
 	)
 }
 
@@ -53,16 +67,17 @@ class Find extends React.Component {
     }
 	sort(event) {
 		var serverId=document.getElementById('select_sort_standard').value
-		console.log(this.data)
-		this.data.sort(function(a, b){
-			var keyA = a.serverId
-				keyB = b.serverId
+		console.log(serverId)
+		this.state.data.sort(function(a, b){
+			var keyA = a[serverId]
+			var keyB = b[serverId]
 			// Compare the 2 dates
 			if(keyA < keyB) return -1
 			if(keyA > keyB) return 1
 			return 0
 		})
-		this.setState({data:this.data})
+		this.setState({data:this.state.data})
+		console.log("sort:",this.state.data)
 	}
   	handleChange(event) {
 		let target = event.target
@@ -147,31 +162,18 @@ class Find extends React.Component {
 			</label>
 			<label className = "range">
 			<select id = "select_sort_standard" onChange = {this.sort}>
-  				<option value="no" selected = "selected">no</option>
+  				<option value="book_no" selected = "selected">book_no</option>
   				<option value="category">category</option>
-  				<option value="name">name</option>
+  				<option value="book_name">book_name</option>
   				<option value="press">press</option>
 				<option value="author">author</option>
 				<option value="year">year</option>
 				<option value="price">price</option>
+				<option value="stock">stock</option>
 			</select>
 			</label>
 		</form>
-		<table>
-			<thead>
-				<tr>
-					<th>book no</th>
-					<th>category</th>
-					<th>book_name</th>
-					<th>press</th>
-					<th>year</th>
-					<th>author</th>
-					<th>price</th>
-					<th>stock</th>
-				</tr>
-			</thead>
 			<Table data = {this.state.data}/>
-		</table>
 		{/* <div><span>+</span><span>{this.state.page}</span><span>-</span></div> */}
 		</div>
       )

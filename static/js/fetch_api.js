@@ -42,7 +42,7 @@ const basic_post_api = async (url,data)=>{
   return result
 }
 const login_Api = async (data)=> {
-	return await basic_post_api('/api/v1/user/login',data)
+  return await basic_post_api('/api/v1/user/login',data)
 }
 
 const status_Api = async()=> {
@@ -65,11 +65,17 @@ const getBook_Api = async(data)=>{
   }
 	return await basic_post_api('/api/v1/book/query_book',tmp)
 }
+
+const query_user = async(cno)=>{
+	return await basic_post_api('/api/v1/book/query_user',cno)
+}
+
 module.exports = {
     'status_Api':status_Api,
     'login_Api':login_Api,
     'logout_Api':logout_Api,
 	  'newBook_Api':newBook_Api,
-	  'getBook_Api':getBook_Api
+    'getBook_Api':getBook_Api,
+    'query_user':query_user,
 }
 

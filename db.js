@@ -195,8 +195,7 @@ const delete_card = async(data)=>{
 }
 
 const query_user = async(data)=>{
-    var verify_result = verify(data.cookie.id,data.cookie.password)
-    if(verify_result[1] != 1)return ["身份验证失败",2]
+    console.log(data)
     var sql = `select * from book,record where book.book_no = record.book_no,cno = ?`
     var params = [data.cno]
     var result = await middle_sql(sql,params)
