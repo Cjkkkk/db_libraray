@@ -72,8 +72,8 @@ class Find extends React.Component {
 			var keyA = a[serverId]
 			var keyB = b[serverId]
 			// Compare the 2 dates
-			if(keyA < keyB) return -1
-			if(keyA > keyB) return 1
+			if(keyA < keyB) return 1
+			if(keyA > keyB) return -1
 			return 0
 		})
 		this.setState({data:this.state.data})

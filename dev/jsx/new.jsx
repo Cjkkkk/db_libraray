@@ -4,7 +4,8 @@ class New extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-		  	book_no:"",
+			book_no:"",
+		 	category:"",
 			book_name:"",
 			press: "",
 			year:"",
@@ -13,9 +14,23 @@ class New extends React.Component {
 			stock:""
 			}
 	  	this.handleChange = this.handleChange.bind(this)
-	  	this.handleSubmit = this.handleSubmit.bind(this)
+		this.handleSubmit = this.handleSubmit.bind(this)
+		this.file_upload = this.file_upload.bind(this)
     }
-
+	file_upload(event) {
+		var file_uploader = document.getElementById('book_file')
+		var data = new FormData()
+		data.append('book_file',file_uploader.files[0])
+		api.load_file(data).then((result)=>{
+			if(result != 1){
+				if(result.status!=0)swal("MESSAGE",result.message,"error")
+				else swal("MESSAGE",result.message,"success")
+			}
+			else{
+				swal("MESSAGE","oops","error")
+			}
+		})
+	}
   	handleChange(event) {
 		let target = event.target
 		let key = target.name
@@ -24,7 +39,10 @@ class New extends React.Component {
   	}
   	handleSubmit(event) {
 		api.newBook_Api(this.state).then(result=>{
-			if(result != 1)swal("MESSAGE","yeah","success")
+			if(result != 1){
+				if(result.status!=1)swal("MESSAGE",result.message,"success")
+				else swal("MESSAGE",result.message,"error")
+			}
 			else{
 				swal("MESSAGE","oops","error")
 			}
@@ -38,6 +56,11 @@ class New extends React.Component {
 				<label >
 					<span>book no</span>
 					<input type = "text" value = {this.state.book_no} name = "book_no" placeholder = "input book_no" onChange = {this.handleChange}/>
+			 </label>
+			 	<br/>
+				 <label >
+					<span>category</span>
+					<input type = "text" value = {this.state.category} name = "category" placeholder = "input category" onChange = {this.handleChange}/>
 			 </label>
 			 	<br/>
   			<label >
@@ -74,11 +97,11 @@ class New extends React.Component {
 			<span>&nbsp;</span>
 			<button type = "button" onClick = {this.handleSubmit}>create</button>
 			</label>
-			<label>
-			<span>new book upload</span>
-			<input type = "file"/>
-			</label>
 		</form>
+		<label>
+			<input id = "book_file" type = "file"/>
+			<button type = "button" onClick = {this.file_upload}>upload</button>
+		</label>
 		</div>
       )
     }

@@ -25,7 +25,7 @@ const middle_sql = async (sql,params = null)=>{
             resolve(result)
         })
     }).then((result)=>{
-        console.log(result)
+        //console.log(result.message)
         return result
     }).catch((err)=>{
         return 1
@@ -59,14 +59,18 @@ const verify = async (id,password)=>{
 @return
 */
 const new_book = async(data)=>{
-    var sql = `insert into book SET ?`
+    var sql = `insert into book values(?,?,?,?,?,?,?,?) `
+    data = Object.keys(data).map(key=>{
+        if(key=="year"||key=="price"||key=="stock")return Number(data[key])
+        return data[key]
+    })
     console.log(data)
     var result = await middle_sql(sql,data)
     if(result != 1){
-        return [`${data.book_name} 入库成功`,0]
+        return [`${data[2]} 入库成功`,0]
     }else{
         // if(result == 'ER_DUP_ENTRY')return [`${data.book_name} 入库失败,book_no 重复`,1]
-        return [`${data.book_name} 入库失败`,1]
+        return [`${data[2]} 入库失败`,1]
     }
 }
 
@@ -85,8 +89,6 @@ const query_book = async(data)=>{
     delete data.year
     delete data.price
     delete data.stock
-    console.log(range)
-    console.log(data)
     var query = ""
     var sql = 'select * from book'
     for(var field in data){

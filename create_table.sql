@@ -1,6 +1,6 @@
 --  ( 书号, 类别, 书名, 出版社, 年份, 作者, 价格, 数量 ) 
 --  Note: 其中 年份、数量是整数类型； 价格是两位小数类型； 其余为字符串类型
-create table book(
+create table book(d
     book_no char(8),
     category varchar(50),
     book_name varchar(50),
@@ -37,7 +37,10 @@ create table record(
     return_date date,
     id char(8),
     primary key(book_no,cno,borrow_date),
-    foreign key(book_no) references book(book_no),on delete CASCADE,on delete CASCADE,
-    foreign key(cno) references card(cno),on delete CASCADE,on delete CASCADE,
-    foreign key(id) references admin(id),on delete CASCADE,on delete CASCADE,
+    foreign key(book_no) references book(book_no) 
+    on update CASCADE on delete CASCADE,
+    foreign key(cno) references card(cno) 
+    on update CASCADE on delete CASCADE,
+    foreign key(id) references admin(id) 
+    on update CASCADE on delete CASCADE
 );
