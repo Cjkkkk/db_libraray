@@ -19,7 +19,7 @@ const middle_sql = async (sql,params = null)=>{
     var result = await new Promise((resolve,reject)=>{
         connection.query(sql,params,function(err,result){
             if(err){
-                console.log(err.code)
+                console.log(err)
                 reject(err)
             }
             resolve(result)
@@ -116,18 +116,27 @@ const query_book = async(data)=>{
 @return
 */
 const return_book = async(data)=>{
-    var verify_result = verify(data.cookie.id,data.cookie.password)
-    if(verify_result[1] != 1)return ["身份验证失败",2]
-    var sql = `select stock from book where book_no = ?`
-    var params = [data.book_no]
+    var sql = `select book_no from record where cno = ? and book_no = ? and return_date is null`
+    var params = [data.cno, data.return_book_no]
+    console.log(params)
     var result = await middle_sql(sql,params)
-    if(result.length == 0)return ["数据库中不存在这本书",1]
-    sql = `update book set stock = stock + 1 where book_no = ?`
-    params = [data.book_no]
-    result = await middle_sql(sql,params)
-    if(result == 1)return ["数据库出现错误",1]
+    console.log(result)
+    if(result.length == 0)return ["你没借过这本书或者你已经还过书了qaq",1]
+
+    let promise_stack = [];
+    let update_sql = `update book set stock = stock + 1 where book_no = ?`//更新书本存量
+    let update_params = [data.book_no]
+    let return_sql = `update record set return_date = ?`//更新归还时间
+    let date = new Date()
+    date = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+    let return_params = [date]
+    promise_stack.push(middle_sql(update_sql,update_params))
+    promise_stack.push(middle_sql(return_sql,return_params))
+    result = await Promise.all(promise_stack)//全部执行
+    console.log(result[0],'\n',result[1])
+    if(result[0]== 1 || result[1] == 1)return ["数据库出现错误",1]
     else{
-        return ["你已经借书成功",0]
+        return ["你已经还书成功",0]
     }
    
 }
@@ -137,22 +146,28 @@ const return_book = async(data)=>{
 @params
 @return
 */
-const borrow_book = async (data)=>{
-    var verify_result = verify(data.cookie.id,data.cookie.password)
-    if(verify_result[1] != 1)return ["身份验证失败",2]
+const borrow_book = async (data,id)=>{
     var sql = `select stock from book where book_no = ?`
-    var params = [data.book_no]
+    var params = [data.borrow_book_no]
     var result = await middle_sql(sql,params)
-    if(result.length == 0)return ["数据库中不存在这本书",1]
-    if(result[0].stock > 0){
-        sql = `update book set stock = stock - 1 where book_no = ?`
-        params = [data.book_no]
-        result = await middle_sql(sql,params)
-        if(result == 1)return ["数据库出现错误",1]
+    if(result.length == 0)return ["数据库中不存在这本书",1]//数据库中没有这本书
+    if(result[0].stock > 0){//有这本书
+        let promise_stack = []
+        let update_sql = `update book set stock = stock - 1 where book_no = ?`
+        let update_params = [data.book_no]
+        promise_stack.push(middle_sql(update_sql,update_params))
+        let insert_sql = `insert into record values(?,?,?,?,?)`
+        let date = new Date()
+        date = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()
+        let insert_params = [data.borrow_book_no, data.cno, date, null,id]
+        promise_stack.push(middle_sql(insert_sql,insert_params))
+        var result = await Promise.all(promise_stack)
+        if(result[0] == 1 || result[1] == 1 )return ["数据库出现错误",1]
         else{
-            return ["你已经还书成功",0]
+            return ["你已经借书成功",0]
         }
-    }else{
+    }
+    else{
         return ["无法借书,库存不足",1]
     }
     
@@ -198,7 +213,7 @@ const delete_card = async(data)=>{
 
 const query_user = async(data)=>{
     console.log(data.cno)
-    var sql = `select book.book_no,category,book_name,press,year,author,price,stock from book,record where book.book_no = record.book_no and cno = ?`
+    var sql = `select book.book_no,category,book_name,press,year,author,price,stock from book,record where book.book_no = record.book_no and cno = ? and return_date is null`
     var params = [data.cno]
     var result = await middle_sql(sql,params)
     if(result == 1)return ["数据库错误",1]

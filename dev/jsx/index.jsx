@@ -53,20 +53,7 @@ class Sidebar extends React.Component {
 		this.change_color = this.change_color.bind(this)
 		}
 		change_color(event){
-			// var target = event.target
-			// var id = target.id
-			// var li_list = document.getElementsByTagName('a')
-			// for(var i=0;i<li_list.length;i++){
-			// 	// console.log(li_list[i],i)
-			// 	if(li_list[i].id == id ){
-			// 		li_list[i].style.background = "#000000"
-			// 		li_list[i].style.color = "#ffffff"
-			// 	}
-			// 	else{
-			// 		li_list[i].style.background = "#ffffff"
-			// 		li_list[i].style.color = "#000000"
-			// 	}
-			// }
+			
 		}
   render () {
     return (

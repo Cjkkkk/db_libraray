@@ -40,7 +40,7 @@
     padding: 10px;
     transition: background 0.3s ease-in-out;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   .query_body input:focus
   {
@@ -82,7 +82,15 @@
     left: 10%;
   }
 
-  
+
+#delete_container p{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    margin-top:0;
+    font-size:32px;
+    color: #000;
+    text-align: center;
+    margin-bottom: 1%;
+}
 #delete_container[type=text],
 #delete_container button
 {
@@ -91,11 +99,29 @@
     color: #000;
 
 }
+#delete_container span
+{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 16px;
+    color: #000;
+    width:20%;
+    display: inline-block;
+
+}
+
+#delete_container label
+{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 16px;
+    color: #000;
+    width:100%;
+
+}
 #delete_container input {
     font-family:"Times New Roman", Georgia, Serif;
     position: relative;
     left: 5%;
-    width: 45%;
+    width: 60%;
     height: 40px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -120,8 +146,7 @@
     font-family:"Times New Roman", Georgia, Serif;
     position: relative;
     left: 25%;
-    width: 25%;
-    height:5%;
+    width: 50%;
     margin:10px;
     background: #576E86;
     border: none;
@@ -133,3 +158,5 @@
 #delete_container button:hover{
     background: #394D61;
 }
+
+

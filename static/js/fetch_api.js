@@ -71,6 +71,22 @@ const query_user = async(cno)=>{
 	return await basic_post_api('/api/v1/book/query_user',cno)
 }
 
+
+const borrow_book = async(borrow_book_no)=>{
+	return await basic_post_api('/api/v1/book/borrow_book',borrow_book_no)
+}
+
+const return_book =async(return_book_no)=>{
+  return await basic_post_api('/api/v1/book/return_book',return_book_no)
+}
+
+const delete_card =async(cno)=>{
+  return await basic_post_api('/api/v1/card/delete_card',cno)
+}
+
+const add_card =async(data)=>{
+  return await basic_post_api('/api/v1/card/add_card',data)
+}
 const load_file = async(data)=>{
   let result = await fetch('/api/v1/book/new_file', {
 		method: 'POST',
@@ -97,6 +113,9 @@ module.exports = {
 	  'newBook_Api':newBook_Api,
     'getBook_Api':getBook_Api,
     'query_user':query_user,
-    'load_file':load_file
+    'load_file':load_file,
+    'borrow_book':borrow_book,
+    'return_book':return_book,
+    'delete_card':delete_card
 }
 

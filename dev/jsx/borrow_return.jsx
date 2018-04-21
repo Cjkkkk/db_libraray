@@ -4,8 +4,8 @@ import Table from './table.jsx'
 
 class Borrow_return extends React.Component {
     constructor(props) {
-      super(props)
-      this.state = {
+      	super(props)
+      	this.state = {
 			cno :"",
 			borrow_book_no:"",
 			return_book_no:"",
@@ -13,7 +13,8 @@ class Borrow_return extends React.Component {
 		}
 	  	this.handleChange = this.handleChange.bind(this)
 	  	this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleRegister = this.handleRegister.bind(this)
+		this.handleBorrow = this.handleBorrow.bind(this)
+		this.handleReturn = this.handleReturn.bind(this)
     }
   	handleChange(event) {
 		let target = event.target
@@ -21,11 +22,33 @@ class Borrow_return extends React.Component {
 		console.log(target.name,target.value)
 		this.setState({[key]: target.value})
   	}
-		handleRegister(event) {
+	handleBorrow(event){
+		api.borrow_book(Object.assign({},{cno:this.state.cno,borrow_book_no:this.state.borrow_book_no}))
+		.then(result=>{
+			if(result == 1)swal("Message","出现未知错误qaq","error")
+			else{
+				if(result.status == 0)swal("Message",result.message,"success")
+				else{
+					swal("Message",result.message,"error")
+				}
+			}
+		})
 	}
-
+	handleReturn(event){
+		api.return_book(Object.assign({},{cno:this.state.cno,return_book_no:this.state.return_book_no}))
+		.then(result=>{
+			if(result == 1)swal("Message","出现未知错误qaq","error")
+			else{
+				if(result.status == 0)swal("Message",result.message,"success")
+				else{
+					swal("Message",result.message,"error")
+				}
+			}
+		})
+	}
   	handleSubmit(event) {
-		api.query_user(Object.assign({},{cno:this.state.cno})).then(result=>{
+		api.query_user(Object.assign({},{cno:this.state.cno}))
+		.then(result=>{
 		console.log(this.state)
 		if(result == 1){
 			swal("MESSAGE",'出现未知错误',"error")
@@ -54,13 +77,13 @@ class Borrow_return extends React.Component {
 					<span>borrow book</span>
 					<input type = "text" value = {this.state.borrow_book_no} name = "borrow_book_no"  onChange = {this.handleChange}/>
 			 	</label>
-				 <button type = "button" onClick = {this.handleSubmit}>borrow</button>
+				 <button type = "button" onClick = {this.handleBorrow}>borrow</button>
 				 <br/>
 				 <label>
 					<span>return book</span>
 					<input type = "text" value = {this.state.return_book_no} name = "return_book_no"  onChange = {this.handleChange}/>
 			 	</label>
-				 <button type = "button" onClick = {this.handleSubmit}>return</button>
+				 <button type = "button" onClick = {this.handleReturn}>return</button>
 				 <Table data = {this.state.data}/>
 		</form>
 		</div>

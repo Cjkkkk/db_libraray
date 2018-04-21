@@ -85,7 +85,7 @@ class Find extends React.Component {
 		<div id = "query_container">
           <form className = "query_body">
 				<p>Find Book</p>
-				<label >
+				<label>
 					<span>no</span>
 					<input type = "text" value = {this.state.book_no} name = "book_no"  onChange = {this.handleChange}/>
 			 	</label>

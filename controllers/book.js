@@ -25,14 +25,22 @@ else{
 @return
 */
 const return_book = async (ctx,next)=>{
-    
+    var result = await db.return_book(ctx.request.body)
+    ctx.response.body = {
+        status:result[1],
+        message:result[0]
+    }
 }
 /*
 @params
 @return
 */
 const borrow_book = async (ctx,next)=>{
-    
+    var result = await db.borrow_book(ctx.request.body, ctx.cookies.get("id"))
+    ctx.response.body = {
+        status:result[1],
+        message:result[0]
+    }
 }
 /*
 @params
