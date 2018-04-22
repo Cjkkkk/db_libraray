@@ -5,7 +5,7 @@ class Delete extends React.Component {
       super(props)
       this.state = {
         cno : "",
-        username:"",
+        user_name:"",
         depart_name:"",
         class:""
     }
@@ -14,7 +14,15 @@ class Delete extends React.Component {
       this.handleadd = this.handleadd.bind(this)
     }
     handleadd(event) {
-
+      api.add_card(this.state).then(result=>{
+        if(result != 1){
+          if(result.status!=1)swal("MESSAGE",result.message,"success")
+          else swal("MESSAGE",result.message,"error")
+        }
+        else{
+          swal("MESSAGE","oops","error")
+        }
+      })
     }
   	handleChange(event) {
 		let target = event.target
@@ -43,12 +51,12 @@ class Delete extends React.Component {
           </label>
           <br/>
           <label>
-          <button typr="button" onClick = {this.handleSubmit}>delete</button>
+          <button type="button" onClick = {this.handleSubmit}>delete</button>
           </label> 
           <br/>
           <p>add card</p>
           <label><span>username</span>
-          <input type = "text" value = {this.state.username} name = "username" placeholder = "username you want to add" onChange = {this.handleChange}/>
+          <input type = "text" value = {this.state.username} name = "user_name" placeholder = "username you want to add" onChange = {this.handleChange}/>
           </label>
           <br/>
           <label><span>depart name</span>
@@ -60,7 +68,7 @@ class Delete extends React.Component {
           </label>
           <br/>
           <label>          
-          <button typr="button" onClick = {this.handleadd}>add</button>
+          <button type="button" onClick = {this.handleadd}>add</button>
           </label>   
           </form>
         </div>

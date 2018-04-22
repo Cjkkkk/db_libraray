@@ -203,7 +203,8 @@ const delete_card = async(data)=>{
     var sql = `delete from card where cno = ?`
     var params = [data.cno]
     var result = await middle_sql(sql,params)
-    if(result != 1){
+    console.log(result.affectedRows)
+    if(result != 1 && result.affectedRows > 0){
         console.log(result)
         return ["删除成功",0]
     }else{

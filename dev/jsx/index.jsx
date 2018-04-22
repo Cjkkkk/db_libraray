@@ -61,7 +61,7 @@ class Sidebar extends React.Component {
 		<li id="find_book" onClick = {this.change_color}><Link to='/'>find book</Link></li>
     <li id="new_book" onClick = {this.change_color}><Link to='/new'>new book</Link></li>
     <li id="borrow_book" onClick = {this.change_color}><Link to='/borrow_return'>borrow & return</Link></li>
-    <li id="delete_card" onClick = {this.change_color}><Link to='/delete_card'>delete card</Link></li>
+    <li id="delete_card" onClick = {this.change_color}><Link to='/delete_card'>delete&add card</Link></li>
     </div>
     )
   }

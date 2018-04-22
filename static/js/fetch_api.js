@@ -85,7 +85,7 @@ const delete_card =async(cno)=>{
 }
 
 const add_card =async(data)=>{
-  return await basic_post_api('/api/v1/card/add_card',data)
+  return await basic_post_api('/api/v1/card/create_card',data)
 }
 const load_file = async(data)=>{
   let result = await fetch('/api/v1/book/new_file', {
@@ -116,6 +116,7 @@ module.exports = {
     'load_file':load_file,
     'borrow_book':borrow_book,
     'return_book':return_book,
-    'delete_card':delete_card
+    'delete_card':delete_card,
+    'add_card':add_card
 }
 
