@@ -4,14 +4,14 @@ function Table(props){
 		<table className="table">
 			<thead className="thead-dark">
 				<tr>
-					<th scope="col">book no</th>
-					<th scope="col">category</th>
-					<th scope="col">book_name</th>
-					<th scope="col">press</th>
-					<th scope="col">year</th>
-					<th scope="col">author</th>
-					<th scope="col">price</th>
-					<th scope="col">stock</th>
+					<th scope="col">书籍编号</th>
+					<th scope="col">分类</th>
+					<th scope="col">书籍名称</th>
+					<th scope="col">出版社</th>
+					<th scope="col">年份</th>
+					<th scope="col">作者</th>
+					<th scope="col">价格</th>
+					<th scope="col">库存</th>
 				</tr>
 			</thead>
 		<tbody>{props.data.map((message) => <Tr key={message.book_no} tr={message} />)}</tbody>

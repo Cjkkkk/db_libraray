@@ -19,8 +19,8 @@ body{
 #body{
   grid-column: 2;
   grid-row: 2;
-  margin: 3%;
-  padding: 3%;
+  margin: 1%;
+  padding: 1%;
   font-family: "Times New Roman", Georgia, Serif;
   color:#000000;
   background: #ffffff;
@@ -75,8 +75,8 @@ body{
   font-family:"Times New Roman", Georgia, Serif;
   color:#000000;
   position: relative;
-  top:20%;
-  left: 40%;
+  top:10%;
+  left: 55%;
   right: 3%;
   width: 8%;
   height: 6%;

@@ -26,7 +26,7 @@
   }
 .query_body label span{
     display: inline-block;
-    width: 10%;
+    width: 12%;
   }
   .query_body input {
     font-family:"Times New Roman", Georgia, Serif;
@@ -40,7 +40,7 @@
     padding: 10px;
     transition: background 0.3s ease-in-out;
     font-size: 16px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
   }
   .query_body input:focus
   {
@@ -52,8 +52,8 @@
   .query_body button{
     font-family:"Times New Roman", Georgia, Serif;
     position: relative;
-    left:20%;
-    width: 50%;
+    left:25%;
+    width: 70%;
     height:3%;
     background: #576E86;
     border: none;
@@ -159,4 +159,32 @@
     background: #394D61;
 }
 
+#borrow_return_container p{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    margin-top:0;
+    font-size:32px;
+    color: #000;
+    text-align: center;
+    margin-bottom: 1%;
+}
+#book_file {
+    display: inline-block;
+}
+#file-upload{
+    position: relative;
+    left: 12%;
+}
 
+.borrow_return_body label{
+    width: 33%;
+}
+.borrow_return_body label span{
+    margin-right: 3%;
+}
+.page-split {
+    position: relative;
+    left:45%;
+}
+.page-split span{
+    margin: 2%;
+}

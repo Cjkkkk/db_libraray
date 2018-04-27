@@ -58,10 +58,10 @@ class Sidebar extends React.Component {
   render () {
     return (
     <div id = "sidebar">
-		<li id="find_book" onClick = {this.change_color}><Link to='/'>find book</Link></li>
-    <li id="new_book" onClick = {this.change_color}><Link to='/new'>new book</Link></li>
-    <li id="borrow_book" onClick = {this.change_color}><Link to='/borrow_return'>borrow & return</Link></li>
-    <li id="delete_card" onClick = {this.change_color}><Link to='/delete_card'>delete&add card</Link></li>
+		<li id="find_book" onClick = {this.change_color}><Link to='/'>查找书籍</Link></li>
+    <li id="new_book" onClick = {this.change_color}><Link to='/new'>书籍入库</Link></li>
+    <li id="borrow_book" onClick = {this.change_color}><Link to='/borrow_return'>借 & 还书籍 </Link></li>
+    <li id="delete_card" onClick = {this.change_color}><Link to='/delete_card'>删 & 建借书证</Link></li>
     </div>
     )
   }
@@ -86,7 +86,7 @@ class Header extends React.Component {
     }else{
 			swal("WELCOME",`欢迎回来${result.name}~`,"success")
     	var logout = document.getElementById('logout')
-    	logout.innerHTML = `logout:${result.name}`
+    	logout.innerHTML = `注销:${result.name}`
 	}
   })
   }
@@ -110,14 +110,14 @@ class Header extends React.Component {
 	}
 	logout(event){
 		var logout = document.getElementById('logout')
-		if(logout.innerHTML == 'logout')swal("MESSAGE",`你还未登录`,"error")
+		if(logout.innerHTML == '注销')swal("MESSAGE",`你还未登录`,"error")
 		else{
 			api.logout_Api().then((result)=>{
 				if(result == 1)return
 				else{
 					var name = logout.innerHTML.slice(7,)
 					swal("MESSAGE",`${name}已经成功注销`,"success")
-					logout.innerHTML ='logout'
+					logout.innerHTML ='注销'
 				}
 			})
 			event.preventDefault()
@@ -128,10 +128,10 @@ class Header extends React.Component {
     <div id="header">
 	<span onClick = {this.toggle}>T</span>
     <h1>
-    Welcome to xxx library!
+    图书管理系统
     </h1>
-	<button type = "button" onClick = {this.login}>login</button>
-	<button type = "button" onClick = {this.logout} id ="logout">logout</button>
+	<button type = "button" onClick = {this.login}>登录</button>
+	<button type = "button" onClick = {this.logout} id ="logout">注销</button>
      </div>
     )
   }

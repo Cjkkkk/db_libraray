@@ -28,6 +28,7 @@ class Find extends React.Component {
 	  	this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.sort = this.sort.bind(this)
+		this.changePage = this.changePage.bind(this)
 		api.getBook_Api(this.state).then(result=>{
 		if(result == 1){
 			swal("MESSAGE",'出现未知错误',"error")
@@ -50,6 +51,14 @@ class Find extends React.Component {
 		})
 		this.setState({data:this.state.data})
 		console.log("sort:",this.state.data)
+	}
+	changePage(event) {
+		let action = event.target.name
+		if(action == "+1"){
+			if(this.state.data.length > 5 * this.state.page)this.setState({page:this.state.page+1})
+		}else{
+			if(this.state.page > 1)this.setState({page:this.state.page-1})
+		}
 	}
   	handleChange(event) {
 		let target = event.target
@@ -84,68 +93,72 @@ class Find extends React.Component {
       return (
 		<div id = "query_container">
           <form className = "query_body">
-				<p>Find Book</p>
+				<p>查找书籍</p>
 				<label>
-					<span>no</span>
+					<span>书籍编号</span>
 					<input type = "text" value = {this.state.book_no} name = "book_no"  onChange = {this.handleChange}/>
 			 	</label>
 				 <label >
-					<span>category</span>
+					<span>分类</span>
 					<input type = "text" value = {this.state.category} name = "category"  onChange = {this.handleChange}/>
 			 	</label>
 				 <br/>
   				<label >
-					<span>name</span>
+					<span>书籍名称</span>
 					<input type = "text" value = {this.state.book_name} name = "book_name"  onChange = {this.handleChange}/>
 				 </label>
 				 
 			 	<label >
-			 	<span>Press</span>
+			 	<span>出版社</span>
 			 	<input type = "text" value = {this.state.press} name = "press"  onChange = {this.handleChange}/>
 			</label> 
 			<br/>
 			<label>
-			<span>author</span>
+			<span>作者</span>
 			<input type = "text" value = {this.state.author} name = "author"  onChange = {this.handleChange}/>
 			</label>
 			<label className = "range">
-			<span>year</span>
+			<span>年份</span>
 			<input type = "text" value = {this.state.year.lowerbound} name = "year.lowerbound"  onChange = {this.handleChange}/>
 			-
 			<input type = "text" value = {this.state.year.upbound} name = "year.upbound"  onChange = {this.handleChange}/>
 			</label>
 			<br/>
 			<label className = "range">
-			<span>Price</span>
+			<span>价格</span>
 			<input type = "text" value = {this.state.price.lowerbound} name = "price.lowerbound"  onChange = {this.handleChange}/>
 			-
 			<input type = "text" value = {this.state.price.upbound} name = "price.upbound"  onChange = {this.handleChange}/>
 			</label>
 			<label className = "range">
-			<span>stock</span>
+			<span>库存</span>
 			<input type = "text" value = {this.state.stock.lowerbound} name = "stock.lowerbound"  onChange = {this.handleChange}/>
 			-
 			<input type = "text" value = {this.state.stock.upbound} name = "stock.upbound"  onChange = {this.handleChange}/>
 			</label>
 			<br/>
 			<label className = "range">
-			<button type = "button" onClick = {this.handleSubmit}>find</button>
+			<button type = "button" onClick = {this.handleSubmit}>查找</button>
 			</label>
 			<label className = "range">
 			<select id = "select_sort_standard" onChange = {this.sort}>
-  				<option value="book_no" >book_no</option>
-  				<option value="category">category</option>
-  				<option value="book_name" selected = "selected">book_name</option>
-  				<option value="press">press</option>
-				<option value="author">author</option>
-				<option value="year">year</option>
-				<option value="price">price</option>
-				<option value="stock">stock</option>
+  				<option value="book_no" >书籍编号</option>
+  				<option value="category">分类</option>
+  				<option value="book_name" selected = "selected">书籍名称</option>
+  				<option value="press">出版社</option>
+				<option value="author">作者</option>
+				<option value="year">年份</option>
+				<option value="price">价格</option>
+				<option value="stock">库存</option>
 			</select>
 			</label>
 		</form>
-			<Table data = {this.state.data}/>
-		{/* <div><span>+</span><span>{this.state.page}</span><span>-</span></div> */}
+			<Table data = {this.state.data.slice(5*(this.state.page-1),5*this.state.page)}/>
+			<div className = "page-split">
+				<button onClick = {this.changePage} name = "-1">{"<<"}</button>
+				<span>{this.state.page}</span>
+				<button onClick = {this.changePage} name = "+1">{">>"}</button>
+			</div>
 		</div>
       )
     }

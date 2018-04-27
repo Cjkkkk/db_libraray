@@ -38,66 +38,71 @@ class New extends React.Component {
 		this.setState({[key]: target.value})
   	}
   	handleSubmit(event) {
-		api.newBook_Api(this.state).then(result=>{
-			if(result != 1){
-				if(result.status!=1)swal("MESSAGE",result.message,"success")
-				else swal("MESSAGE",result.message,"error")
-			}
-			else{
-				swal("MESSAGE","oops","error")
-			}
-		})
+		if(this.state.book_no == ""||this.state.category==""||this.state.book_name==""
+		||this.state.press ==""||this.state.year ==""||this.state.author==""||this.state.price==""||this.state.stock==""){
+			swal("MESSAGE","有信息没有填写完整","error")
+		}else{
+			api.newBook_Api(this.state).then(result=>{
+				if(result != 1){
+					if(result.status!=1)swal("MESSAGE",result.message,"success")
+					else swal("MESSAGE",result.message,"error")
+				}
+				else{
+					swal("MESSAGE","oops","error")
+				}
+			})
+		}
   	}
     render() {
       return (
 		<div id = "query_container">
           <form className = "query_body">
-				<p>New Book</p>
+				<p>书籍入库</p>
 				<label >
-					<span>book_no</span>
+					<span>书籍编号</span>
 					<input type = "text" value = {this.state.book_no} name = "book_no"  onChange = {this.handleChange}/>
 			 	</label>
 				 <label >
-					<span>category</span>
+					<span>分类</span>
 					<input type = "text" value = {this.state.category} name = "category"  onChange = {this.handleChange}/>
 			 	</label>
 				 <br/>
   				<label >
-					<span>name</span>
+					<span>书籍名称</span>
 					<input type = "text" value = {this.state.book_name} name = "book_name"  onChange = {this.handleChange}/>
 				 </label>
 				 
 			 	<label >
-			 	<span>Press</span>
+			 	<span>出版社</span>
 			 	<input type = "text" value = {this.state.press} name = "press"  onChange = {this.handleChange}/>
 			</label> 
 			<br/>
 			<label>
-			<span>author</span>
+			<span>作者</span>
 			<input type = "text" value = {this.state.author} name = "author"  onChange = {this.handleChange}/>
 			</label>
 			<label>
-			<span>year</span>
+			<span>年份</span>
 			<input type = "text" value = {this.state.year} name = "year"  onChange = {this.handleChange}/>
 			</label>
 			<br/>
 			<label>
-			<span>Price</span>
+			<span>价格</span>
 			<input type = "text" value = {this.state.price} name = "price"  onChange = {this.handleChange}/>
 			</label>
 			<label>
-			<span>stock</span>
+			<span>库存</span>
 			<input type = "text" value = {this.state.stock} name = "stock"  onChange = {this.handleChange}/>
 			</label>
 			<br/>
 			<label>
-			<button type = "button" onClick = {this.handleSubmit}>create</button>
+			<button type = "button" onClick = {this.handleSubmit}>创建</button>
 			</label>
 		</form>
-			<label id="file_uploader">
+		<div id ="file-upload">
 			<input id = "book_file" type = "file"/>
-			</label>
-			<button type = "button" onClick = {this.file_upload}>upload</button>
+			<button type = "button" onClick = {this.file_upload}>上传</button>
+		</div>
 		</div>
       )
     }
